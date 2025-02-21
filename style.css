@@ -1,0 +1,23 @@
+#simple-banner {
+    background-color: #ff6f00;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#simple-banner button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+body {
+    margin-top: 50px;
+}
