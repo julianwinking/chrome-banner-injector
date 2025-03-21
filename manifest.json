@@ -1,10 +1,16 @@
 {
     "manifest_version": 3,
-    "name": "Simple Banner Injector",
+    "name": "Chrome Banner Injector",
     "version": "1.0",
-    "description": "Injects a simple banner into specified websites.",
-    "permissions": ["storage", "activeTab", "scripting"],
-    "host_permissions": ["<all_urls>"],
+    "description": "Injects a banner into web pages.",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
     "action": {
         "default_popup": "popup.html",
         "default_icon": "icon.png"

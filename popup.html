@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Settings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Configurations</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Banner Settings</h2>
-    <label>Websites (comma-separated):</label><br>
-    <input type="text" id="websites" placeholder="example.com, site.org"><br><br>
-    <label>Banner Message:</label><br>
-    <input type="text" id="bannerMessage" placeholder="Your message here"><br><br>
-    <button id="save">Save</button>
+    <div id="popup-container">
+        <h1>Banner Injector</h1>
+        <p>Set up custom banners for your favorite websites.</p>
+        <h2>Configure Banners</h2>
+        <form id="website-config-form">
+            <input type="text" name="website" placeholder="Website URL (e.g., example.com)" required>
+            <textarea name="bannerText" placeholder="Banner Text" required></textarea>
+            <button type="submit">Add Configuration</button>
+        </form>
+        <div id="website-config-list"></div>
+    </div>
     <script src="popup.js"></script>
 </body>
 </html>
