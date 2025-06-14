@@ -8,15 +8,92 @@
 </head>
 <body>
     <div id="popup-container">
-        <h1>Banner Injector</h1>
-        <p>Set up custom banners for your favorite websites.</p>
-        <h2>Configure Banners</h2>
-        <form id="website-config-form">
-            <input type="text" name="website" placeholder="Website URL (e.g., example.com)" required>
-            <textarea name="bannerText" placeholder="Banner Text" required></textarea>
-            <button type="submit">Add Configuration</button>
-        </form>
-        <div id="website-config-list"></div>
+        <div class="popup-header">
+            <h1>Banner Injector</h1>
+            <button id="close-popup" class="close-popup-btn" title="Close">✖</button>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="new-banner">New Banner</button>
+            <button class="tab-button" data-tab="existing-banners">Existing Banners</button>
+            <button class="tab-button" data-tab="settings">Settings</button>
+        </div>
+        
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- New Banner Tab -->
+            <div id="new-banner-tab" class="tab-panel active">
+                <h2>Create New Banner</h2>
+                <p>Set up a custom banner for a specific website.</p>
+                <form id="website-config-form">
+                    <div class="form-group">
+                        <label for="website">Website URL</label>
+                        <input type="text" name="website" id="website" placeholder="e.g., youtube.com, github.com" required>
+                        <small>Enter the domain or part of the URL where the banner should appear</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bannerText">Banner Text</label>
+                        <textarea name="bannerText" id="bannerText" placeholder="Enter your banner message..." required></textarea>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Custom Button (Optional)</h3>
+                        <div class="form-group">
+                            <label for="buttonText">Button Text</label>
+                            <input type="text" name="buttonText" id="buttonText" placeholder="e.g., Learn More, Get Started">
+                        </div>
+                        <div class="form-group">
+                            <label for="buttonUrl">Button URL</label>
+                            <input type="url" name="buttonUrl" id="buttonUrl" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Timer Settings</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="showTimer" id="showTimer">
+                                <span class="checkmark"></span>
+                                Show session timer
+                            </label>
+                            <small>Track time spent on this website</small>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="primary-button">Add Banner</button>
+                </form>
+            </div>
+            
+            <!-- Existing Banners Tab -->
+            <div id="existing-banners-tab" class="tab-panel">
+                <h2>Manage Existing Banners</h2>
+                <p>View and manage your configured banners.</p>
+                <div id="website-config-list"></div>
+                <div id="no-banners-message" class="no-content-message" style="display: none;">
+                    <p>No banners configured yet.</p>
+                    <p>Switch to the "New Banner" tab to create your first banner.</p>
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-panel">
+                <h2>Global Settings</h2>
+                <p>Configure global settings for all banners.</p>
+                <div class="settings-section">
+                    <div class="setting-item">
+                        <label for="session-timeout">Session Timeout</label>
+                        <div class="input-group">
+                            <input type="number" id="session-timeout" min="1" max="60" value="5">
+                            <span class="input-suffix">minutes</span>
+                        </div>
+                        <small>Time after which session resets when all tabs are closed</small>
+                    </div>
+                    <button id="save-settings" class="primary-button">Save Settings</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="popup.js"></script>
 </body>

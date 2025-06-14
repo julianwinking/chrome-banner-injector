@@ -4,11 +4,10 @@ The **Chrome Banner Injector** is a Chrome extension that allows users to inject
 
 ## Features
 
-- Injects a banner at the top of specified websites.
-- Customizable banner text for each website.
-- Persistent configuration using Chrome's storage API.
-- Clean and responsive design with a close button for dismissing the banner.
-- Easy-to-use configuration interface.
+- Injects a banner at the top of specified websites
+- Customizable banner text for each website
+- Session timer that tracks time spent on websites (including subpages)
+- Custom buttons with configurable links for each website
 
 ## Installation
 
@@ -24,41 +23,39 @@ The **Chrome Banner Injector** is a Chrome extension that allows users to inject
 2. Add a new website configuration by specifying:
    - The website URL (or part of it).
    - The banner text to display.
-3. Save the configuration.
-4. Visit the specified website, and the banner will appear at the top of the page.
+   - **Optional**: Custom button text and URL.
+   - **Optional**: Enable session timer to track time spent on the website.
+3. Configure global settings:
+   - Set the session timeout (how long before a session resets after closing all tabs).
+4. Save the configuration.
+5. Visit the specified website, and the banner will appear at the top of the page with your configured features.
 
 ## Project Structure
 
 ```
+```
 chrome-banner-injector/
-├── background.js       # Handles background tasks and tab updates
-├── content.js          # Injects the banner into the webpage
-├── style.css           # Styles for the banner and popup
-├── manifest.json       # Chrome extension manifest file
-├── README.md           # Project documentation
+├── background.js       # Handles background tasks such as managing configurations and responding to events.
+├── content.js          # Injects the banner into the webpage and manages its behavior.
+├── popup.html          # Defines the structure of the extension's popup interface.
+├── popup.js            # Implements the logic for the popup interface, including user interactions and configuration updates.
+├── style.css           # Contains the styles for the banner and the extension's popup interface.
+├── manifest.json       # Defines the extension's metadata, permissions, and resources.
+├── README.md           # Provides detailed documentation about the project, including installation and usage instructions.
 ```
 
 ## Configuration
 
-The extension uses Chrome's `chrome.storage.sync` API to store website configurations. Each configuration includes:
+The extension uses Chrome's `chrome.storage.sync` API to store website configurations and global settings. Each configuration includes:
 - `website`: The URL or part of the URL where the banner should appear.
 - `bannerText`: The text to display in the banner.
+- `buttonText`: Optional custom button text.
+- `buttonUrl`: Optional custom button URL.
+- `showTimer`: Boolean to enable/disable session timer.
 
-## Development
+Global settings include:
+- `sessionTimeout`: Time in minutes after which a session resets when all tabs are closed (default: 5 minutes).
 
-### Prerequisites
-- Google Chrome
-- Basic knowledge of JavaScript, HTML, and CSS
-
-### Steps
-1. Modify the files as needed.
-2. Reload the extension in `chrome://extensions/` after making changes.
-3. Test the functionality on your desired websites.
-
-## Known Issues
-
-- The banner may not appear on websites with restrictive Content Security Policies (CSP).
-- If the configuration is not saved, ensure that Chrome's storage permissions are enabled.
 
 ## Contributing
 
@@ -71,7 +68,3 @@ Contributions are welcome! Please follow these steps:
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-Thank you for using the Chrome Banner Injector!
