@@ -33,7 +33,6 @@ The **Chrome Banner Injector** is a Chrome extension that allows users to inject
 ## Project Structure
 
 ```
-```
 chrome-banner-injector/
 ├── background.js       # Handles background tasks such as managing configurations and responding to events.
 ├── content.js          # Injects the banner into the webpage and manages its behavior.
