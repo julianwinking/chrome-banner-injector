@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sessionTimeoutInput = document.getElementById('session-timeout');
     const closePopupBtn = document.getElementById('close-popup');
     const noBannersMessage = document.getElementById('no-banners-message');
+    const bgColorInput = document.getElementById('bgColor');
+    const textColorInput = document.getElementById('textColor');
 
     // Prefill website field with the current tab's URL
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -113,15 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const buttonText = form.buttonText.value.trim();
         const buttonUrl = form.buttonUrl.value.trim();
         const showTimer = form.showTimer.checked;
+        const bgColor = bgColorInput.value || '#f8d7da';
+        const textColor = textColorInput.value || '#721c24';
 
         if (!website || !bannerText) return;
 
-        const newConfig = { 
-            website, 
+        const newConfig = {
+            website,
             bannerText,
             buttonText: buttonText || null,
             buttonUrl: buttonUrl || null,
-            showTimer
+            showTimer,
+            bgColor,
+            textColor
         };
 
         chrome.storage.sync.get('websiteConfigs', (data) => {
@@ -162,6 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const features = [];
         if (config.buttonText) features.push('Custom Button');
         if (config.showTimer) features.push('Session Timer');
+        if (config.bgColor || config.textColor) {
+            if (config.bgColor !== '#f8d7da' || config.textColor !== '#721c24') {
+                features.push('Custom Colors');
+            }
+        }
         const featuresText = features.length ? ` • ${features.join(', ')}` : '';
         
         item.innerHTML = `
