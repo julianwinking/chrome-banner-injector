@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const closePopupBtn = document.getElementById('close-popup');
     const noBannersMessage = document.getElementById('no-banners-message');
 
+    // Prefill website field with the current tab's URL
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs && tabs[0] && tabs[0].url) {
+            form.website.value = tabs[0].url;
+        }
+    });
+
     // Tab functionality
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
