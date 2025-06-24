@@ -7,7 +7,11 @@ if (!window.bannerInjectorLoaded) {
         const currentUrl = window.location.href;
         const currentDomain = window.location.hostname;
 
-        const matchingConfig = configs.find(config => currentUrl.includes(config.website));
+        const now = Date.now();
+        const matchingConfig = configs.find(config => {
+            const hidden = config.hideUntil && now < config.hideUntil;
+            return currentUrl.includes(config.website) && !hidden;
+        });
         if (matchingConfig) {
             createBanner(matchingConfig, currentDomain);
         }
@@ -33,6 +37,8 @@ function createBanner(config, domain) {
     const bannerContainer = document.createElement('div');
     bannerContainer.id = 'banner-container';
     bannerContainer.className = 'banner-container';
+    bannerContainer.style.setProperty('--banner-bg-color', config.bgColor || '#f8d7da');
+    bannerContainer.style.setProperty('--banner-text-color', config.textColor || '#721c24');
 
     // Create the main content area
     const contentArea = document.createElement('div');
@@ -89,6 +95,45 @@ function createBanner(config, domain) {
         };
         buttonArea.appendChild(customButton);
     }
+
+    // Add hide dropdown
+    const hideSelect = document.createElement('select');
+    hideSelect.className = 'banner-hide-select';
+    const hideOptions = [
+        { value: '', label: 'Hide…' },
+        { value: 1, label: '1 min' },
+        { value: 3, label: '3 min' },
+        { value: 5, label: '5 min' },
+        { value: 10, label: '10 min' },
+        { value: 15, label: '15 min' },
+        { value: 20, label: '20 min' },
+        { value: 30, label: '30 min' },
+        { value: 60, label: '1 h' }
+    ];
+    hideOptions.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.label;
+        if (opt.value === '') {
+            option.disabled = true;
+            option.selected = true;
+        }
+        hideSelect.appendChild(option);
+    });
+    hideSelect.addEventListener('change', (e) => {
+        const minutes = parseInt(e.target.value, 10);
+        if (!isNaN(minutes)) {
+            hideBannerTemporarily(config.website, minutes);
+            cleanupTimers();
+            bannerContainer.classList.add('banner-hidden');
+            bannerContainer.style.setProperty('display', 'none', 'important');
+            bannerContainer.style.setProperty('visibility', 'hidden', 'important');
+            bannerContainer.style.setProperty('opacity', '0', 'important');
+            document.body.style.paddingTop = '0px';
+            resetFixedElements();
+        }
+    });
+    buttonArea.appendChild(hideSelect);
 
     // Add close button
     const closeButton = document.createElement('button');
@@ -244,6 +289,18 @@ function adjustBodyPadding() {
             }
         });
     }
+}
+
+function hideBannerTemporarily(website, minutes) {
+    chrome.storage.sync.get('websiteConfigs', (data) => {
+        const configs = data.websiteConfigs || [];
+        const cfg = configs.find(c => c.website === website);
+        if (cfg) {
+            const durationMs = minutes * 60 * 1000;
+            cfg.hideUntil = Date.now() + durationMs;
+            chrome.storage.sync.set({ websiteConfigs: configs });
+        }
+    });
 }
 
 // Handle dynamic content changes
