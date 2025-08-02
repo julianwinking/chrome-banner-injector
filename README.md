@@ -8,8 +8,6 @@ The **Chrome Banner Injector** is a Chrome extension that allows users to inject
 - Customizable banner text for each website
 - Session timer that tracks time spent on websites (including subpages)
 - Custom buttons with configurable links for each website
-- Customizable colors for each banner
-- Temporarily hide a banner for a selected duration (1 minute to 1 hour)
 
 ## Installation
 
